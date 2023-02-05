@@ -1,0 +1,158 @@
+---
+title: "R Notebook"
+output: html_notebook
+editor_options: 
+  chunk_output_type: console
+---
+```{r}
+# clear memory
+rm(list = ls())
+library(rio)
+myHypothesisData= read.csv("https://github.com/allisgoodrn/guided1/raw/main/complete1.csv", stringsAsFactors = FALSE)
+View(myHypothesisData)
+```
+```{r}
+#dropping the x column 
+myHypothesisData=myHypothesisData[,-1]
+```
+```{r}
+#creating our region data frames
+head(myHypothesisData)
+midwest= myHypothesisData[c(0:12),c(1,3,5:11)]
+northeast=myHypothesisData[c(13:21),c(1,3,5:11)]
+south=myHypothesisData[c(22:37),c(1,3,5:11)]
+west=myHypothesisData[c(38:50), c(1,3,5:11)]
+```
+```{r}
+#Total US population
+usTP=sum(midwest$Total_Population,
+    northeast$Total_Population,
+    south$Total_Population,
+    west$Total_Population) #325,867,334
+
+```
+
+```{r}
+#total Indigenous population
+(usInd=sum(midwest$Indigenous,
+           northeast$Indigenous,
+           south$Indigenous,
+           west$Indigenous))
+usInd/usTP*100 #0.6
+
+#total European population
+(usEur=sum(midwest$European,
+           northeast$European,
+           south$European,
+           west$European))
+usEur/usTP*100 #60.1
+
+#Total Latinx population
+(usLat=sum(midwest$Latinx,
+           northeast$Latinx,
+           south$Latinx,
+           west$Latinx))
+
+#Total African population
+(usAfr=sum(midwest$African,
+           northeast$African,
+           south$African,
+           west$African))
+usAfr/usTP*100 # 12.1
+
+#Total Asian population 
+(usAsi=sum(midwest$Asian,
+           northeast$Asian,
+           south$Asian,
+           west$Asian))
+usAsi/usTP*100 #5.5
+```
+####################### midwest data #########################
+```{r}
+#sum midwest
+(tpSum=sum(midwest$Total_Population)
+(indSum=sum(midwest$Indigenous))
+(eurSum=sum(midwest$European))
+(latSum=sum(midwest$Latinx))
+(afrSum=sum(midwest$African))
+(asiSum=sum(midwest$Asian))
+
+# percentage midwest
+(indPer=indSum/tpSum*100) #0.50
+(eurPer=eurSum/tpSum*100) #75.0
+(latPer=latSum/tpSum*100) #7.9
+(afriPer=afrSum/tpSum*100) #10.2 (African)
+(asiPer=asiSum/tpSum*100) #3.2
+
+#mean of midwest cost index
+midwestMean=mean(midwest$Cost_Index) #93.5 
+
+```
+####################### northeast data #########################
+```{r}
+(tpSum1=sum(northeast$Total_Population))
+(indSum1=sum(northeast$Indigenous))
+(eurSum1=sum(northeast$European))
+(latSum1=sum(northeast$Latinx))
+(afrSum1=sum(northeast$African))
+(asiSum1=sum(northeast$Asian))
+
+# percentage 
+(indPer1=indSum1/tpSum1*100) #0.1
+(eurPer1=eurSum1/tpSum1*100) #64.8
+(latPer1=latSum1/tpSum1*100) #14.6 
+(afriPer1=afrSum1/tpSum1*100) #10.9
+(asiPer1=asiSum1/tpSum1*100) #6.5
+
+#mean of northeast cost index
+northeastMean=mean(northeast$Cost_Index) #120.1 (highest)
+```
+####################### south data #########################
+```{r}
+(tpSum2=sum(south$Total_Population))
+(indSum2=sum(south$Indigenous))
+(eurSum2=sum(south$European))
+(latSum2=sum(south$Latinx))
+(afrSum2=sum(south$African))
+(asiSum2=sum(south$Asian))
+
+# percentage 
+(indPer2=indSum2/tpSum2*100) #0.5 
+(eurPer2=eurSum2/tpSum2*100) #56.4
+(latPer2=latSum2/tpSum2*100) #18.0
+(afriPer2=afrSum2/tpSum2*100) #18.6 (African)
+(asiPer2=asiSum2/tpSum2*100) #3.4
+
+#mean of south cost index
+southMean=mean(south$Cost_Index) #94.9 (second lowest)
+```
+####################### west data #########################
+```{r}
+(tpSum3=sum(west$Total_Population))
+(indSum3=sum(west$Indigenous))
+(eurSum3=sum(west$European))
+(latSum3=sum(west$Latinx))
+(afrSum3=sum(west$African))
+(asiSum3=sum(west$Asian))
+
+# percentage 
+(indPer3=indSum3/tpSum3*100) #1.2
+(eurPer3=eurSum3/tpSum3*100) #49.5
+(latPer3=latSum3/tpSum3*100) #29.9 
+(afriPer3=afrSum3/tpSum3*100) #4.4
+(asiPer3=asiSum3/tpSum3*100) #10.2
+
+#mean of northeast cost index
+(westMean=mean(west$Cost_Index)) # 115.8 (second highest)
+
+
+```
+####################### mean of all region cost index ###################
+```{r}
+#Mean of cost index 
+(mean(midwestMean,
+      northeastMean,
+      southMean,
+      westMean)) #93.58333
+```
+
