@@ -1,0 +1,45 @@
+---
+title: "R Notebook"
+output: html_notebook
+editor_options: 
+  chunk_output_type: console
+---
+```{r}
+# clear memory
+rm(list = ls())
+library(rio)
+myHypothesisData= read.csv("https://github.com/allisgoodrn/guided1/raw/main/complete1.csv", stringsAsFactors = FALSE)
+
+```
+
+SUBSET YOUR DATA:
+```{r}
+selec=c("State.Code" ,"Region","Cost_Index","Indigenous","European","Latinx","African","Asian")
+mySubData=myHypothesisData[,selec]
+```
+
+GGPLOT NEEDS A LONG FORMAT. So all the RACE values should be long format:
+
+```{r}
+library(reshape2)
+mySubData_Long=reshape2::melt(mySubData,c("State.Code" ,"Region","Cost_Index"))
+# you get:
+head(mySubData_Long,20)
+```
+
+RENAME DE COLUMNS
+```{r}
+names(mySubData_Long)[c(4,5)]=c("race","all_race_value")
+```
+
+NOW ploT:
+
+```{r}
+library(ggplot2)
+
+base=ggplot(data=mySubData_Long)
+plot1=base + geom_point(aes(x=Cost_Index,all_race_value))
+plot1 + facet_grid(Region~race)
+```
+
+
