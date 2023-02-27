@@ -1,0 +1,69 @@
+---
+title: "pubpol542 deliverable 1"
+author: "Ann S"
+date: "2023-02-23"
+output: html_document
+---
+
+[QUESTION 1]\
+Do the variables in the data file represent some latent concept?
+
+```{r our code}
+library(rio)
+hypdata= read.csv("https://github.com/allisgoodrn/guided1/raw/main/complete1.csv", stringsAsFactors = FALSE)
+
+selec=c("State.Code" ,"Region","Cost_Index","Indigenous","European","Latinx","African","Asian")
+hypdata1=hypdata[,selec]
+
+library(reshape2)
+hypdata1_long=reshape2::melt(hypdata1,c("State.Code" ,"Region","Cost_Index"))
+head(hypdata1_long,20)
+
+names(hypdata1_long)[c(1,4,5)]=c("State_Code","race","all_race_value")
+
+library(ggplot2)
+library(magrittr)
+library(scales)
+library(ggrepel)
+
+base=hypdata1_long%>%ggplot(aes(x=Cost_Index,y=all_race_value,
+                           color=Cost_Index))
+plot1= base+geom_point(shape=19,size=2.5)+#theme_bw()
+  scale_color_gradient(low="black", high="red")
+plot2=plot1+ facet_grid(Region~race)
+plot3=plot2+scale_y_continuous(labels = label_number(suffix = "M", scale = 1e-6)) 
+plot4=plot3+geom_text_repel(aes(label=ifelse(all_race_value>500000, State_Code, "")),
+                            size=2.5, 
+                            min.segment.length = 0,
+                            max.overlaps = 100)
+titleText='States with Racial/Ethnic Populations Greater than 500K'
+subText="Latinx and Asian Americans more likely to live in pricier locales"
+sourceText='Source: U.S. Census Bureau (2020)'
+plot5=plot4+labs(title = titleText,
+            x=NULL,
+            y=NULL, 
+            subtitle=subText,
+            caption=sourceText)
+plot5
+
+```
+
+[ANSWER]\
+The variables in the data represent racial/ethnic values in each individual US states that over 500,000 in population size. It tells us that Latinx and Asian Americans tend to live in more pricier locales than other demographic groups.
+
+###
+[QUESTION 2]
+Select a variable (or an index you can create using Factor Analysis) as an dependent
+variable(State_Code(Y)), run a regression with three independent variables
+(EUROPEAN, ASIAN, BLACK(X)), and **write a paragraph** explaining the
+results found.
+
+
+```{r factor analysis}
+
+
+```
+
+2. Organize your answer  in **ONE** markdown file.
+
+
